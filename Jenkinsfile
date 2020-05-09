@@ -4,7 +4,7 @@ pipeline {
 
         stage('Create kubernetes cluster'){
             steps {
-                withAWS(region:'us-east-1', credentials:'ecr_credentials'){
+                withAWS(region:'us-west-2', credentials:'ecr_credentials'){
                     sh '''
                         aws cloudformation create-stack \
                         --stack-name "eksworkshop-vpc" \
