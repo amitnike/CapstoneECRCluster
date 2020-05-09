@@ -10,6 +10,7 @@ pipeline {
                         --stack-name "eksworkshop-vpc" \
                         --template-url "https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-08-30/amazon-eks-vpc-sample.yaml" \
 					
+					sleep 120;
 					'''
                 }
             }
