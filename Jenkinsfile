@@ -18,9 +18,7 @@ pipeline {
 
 					export SUBNET_IDS=$( aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SubnetIds'].OutputValue" --output text)
 					
-					export version=${pip3 freeze | grep awscli}
 
-					echo version=${version}
 					echo SERVICE_ROLE=${SERVICE_ROLE}
 					echo SECURITY_GROUP=${SECURITY_GROUP}
 					echo SUBNET_IDS=${SUBNET_IDS}
