@@ -12,7 +12,7 @@ pipeline {
 					
 					sleep 120;
 
-					export SERVICE_ROLE=$(aws iam get-role --role-name "EKSServiceRole" --query Role.Arn --output text)
+					export SERVICE_ROLE=$(aws iam get-role --role-name "AWSServiceRoleForAmazonEKS" --query Role.Arn --output text)
 
 					export SECURITY_GROUP=$(aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SecurityGroups'].OutputValue" --output text)
 
