@@ -22,13 +22,15 @@ pipeline {
 					echo SECURITY_GROUP=${SECURITY_GROUP}
 					echo SUBNET_IDS=${SUBNET_IDS}
 
-					aws eks create-cluster --name eksworkshop \
+					aws eks --region us-west-2 create-cluster \
+					--name eksworkshop \
 					--role-arn "${SERVICE_ROLE}" \
 					--resources-vpc-config subnetIds="${SUBNET_IDS}",securityGroupIds="${SECURITY_GROUP}"
 
+
 					aws eks describe-cluster --name "eksworkshop" --query cluster.status --output text
 
-
+					sleep 300;
 					'''
                 }
             }
