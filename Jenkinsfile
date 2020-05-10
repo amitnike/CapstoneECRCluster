@@ -13,17 +13,14 @@ pipeline {
 	
 					sleep 90;
 					
-					script {
-						env.serviceRole=$(aws iam get-role --role-name "AWSServiceRoleForAmazonEKS" --query Role.Arn --output text )
-						echo "${env.serviceRole}" 
-						
+					script {	
 						env.secGoup=$(aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SecurityGroups'].OutputValue" --output text)
-						echo "${env.secGoup}" 
-
-						env.SubIds=$( aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SubnetIds'].OutputValue" --output text)
-						echo "${env.SubIds}" 
+						env.serviceRole=$(aws iam get-role --role-name "AWSServiceRoleForAmazonEKS" --query Role.Arn --output text )
+						env.SubIds=$( aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SubnetIds'].OutputValue" --output text)	 
 					}
-
+					echo "${env.secGoup}" 
+					echo "${env.serviceRole}" 
+					echo "${env.SubIds}"
 					'''	
                 }
             }
