@@ -5,14 +5,13 @@ pipeline {
         stage('Create VPC'){
             steps {
                 withAWS(region:'us-west-2', credentials:'ecr_credentials'){
-					script {
-
 						 aws cloudformation create-stack \
                         --stack-name "eksworkshop-vpc" \
                         --template-url "https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-08-30/amazon-eks-vpc-sample.yaml" \
 	
 						sleep 90;
-
+						
+					script {
 						env.SERVICE_ROLE=$(aws iam get-role --role-name "AWSServiceRoleForAmazonEKS" --query Role.Arn --output text )
 						echo "${env.SERVICE_ROLE}" 
 
