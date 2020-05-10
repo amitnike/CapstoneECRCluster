@@ -15,22 +15,22 @@ pipeline {
         stage('Create VPC'){
             steps {
                 withAWS(region:'us-west-2', credentials:'ecr_credentials'){
-					echo "Current agent  info: ${env.SERVICE_ROLE}"
+					
                     sh '''
                         aws cloudformation create-stack \
                         --stack-name "eksworkshop-vpc" \
                         --template-url "https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-08-30/amazon-eks-vpc-sample.yaml" \
 	
 					sleep 120;
+					'''
 
-
-					env.SERVICE_ROLE=$(aws iam get-role --role-name "AWSServiceRoleForAmazonEKS" --query Role.Arn )
+					env.SERVICE_ROLE=$(aws iam get-role --role-name "AWSServiceRoleForAmazonEKS" --query Role.Arn --output text )
 					
 					env.SECURITY_GROUP=$(aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SecurityGroups'].OutputValue" --output text)
 					
 					env.SUBNET_IDS=$( aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SubnetIds'].OutputValue" --output text)
 
-					'''
+					
                 }
             }
         }
