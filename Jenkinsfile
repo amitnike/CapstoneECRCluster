@@ -24,12 +24,11 @@ pipeline {
 					sleep 120;
 
 
-					env.SERVICE_ROLE=$(aws iam get-role --role-name "AWSServiceRoleForAmazonEKS" --query Role.Arn --output text)
+					env.SERVICE_ROLE=$(aws iam get-role --role-name "AWSServiceRoleForAmazonEKS" --query Role.Arn )
 					
 					env.SECURITY_GROUP=$(aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SecurityGroups'].OutputValue" --output text)
 					
 					env.SUBNET_IDS=$( aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SubnetIds'].OutputValue" --output text)
-					echo ${env.SUBNET_IDS}
 
 					'''
                 }
@@ -38,10 +37,10 @@ pipeline {
 
 		stage('Create kubernetes cluster') {
 			steps {
-				echo "Current agent  info: ${env.SERVICE_ROLE}"
-				echo "Current agent  info: ${env.SECURITY_GROUP}"
-				echo "Current agent  info: ${env.SUBNET_IDS}"
 				withAWS(region:'us-west-2', credentials:'ecr_credentials') {
+					echo "Current agent  info: ${env.SERVICE_ROLE}"
+					echo "Current agent  info: ${env.SECURITY_GROUP}"
+					echo "Current agent  info: ${env.SUBNET_IDS}"					
 					sh '''
 
 					aws eks --region us-west-2 create-cluster \
