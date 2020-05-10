@@ -1,11 +1,4 @@
 pipeline {
-
-	environment {
-        SERVICE_ROLE = ''
-		SECURITY_GROUP = ''
-		SUBNET_IDS = ''
-    }
-
 	agent any
 	stages {
 
@@ -22,12 +15,13 @@ pipeline {
 					
 
 					env.SERVICE_ROLE=$(aws iam get-role --role-name "AWSServiceRoleForAmazonEKS" --query Role.Arn --output text )
-					echo ${env.SERVICE_ROLE}
+					echo "${env.SERVICE_ROLE}" 
 					
 					env.SECURITY_GROUP=$(aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SecurityGroups'].OutputValue" --output text)
-					
+					echo "${env.SECURITY_GROUP}" 
+
 					env.SUBNET_IDS=$( aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SubnetIds'].OutputValue" --output text)
-					
+					echo "${env.SUBNET_IDS}" 
 					'''	
                 }
             }
