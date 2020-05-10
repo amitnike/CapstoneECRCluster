@@ -16,11 +16,9 @@ pipeline {
             steps {
                 withAWS(region:'us-west-2', credentials:'ecr_credentials'){
                     sh '''
-                        aws cloudformation create-stack \
-                        --stack-name "eksworkshop-vpc" \
-                        --template-url "https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-08-30/amazon-eks-vpc-sample.yaml"
+                        aws cloudformation create-stack --stack-name "eksworkshop-vpc" --template-url "https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-08-30/amazon-eks-vpc-sample.yaml"
 
-					echo "Current agent  info: ${env.SERVICE_ROLE}"		
+						echo "Current agent  info: ${env.SERVICE_ROLE}"		
 					sleep 120;
 
 
