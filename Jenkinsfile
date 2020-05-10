@@ -19,6 +19,17 @@ pipeline {
 					export SUBNET_IDS=$( aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SubnetIds'].OutputValue" --output text)
 					
 
+					'''
+                }
+            }
+        }
+
+		stage('Create kubernetes cluster') {
+			steps {
+				withAWS(region:'us-west-2', credentials:'ecr_credentials') {
+					sh '''
+					
+
 					echo SERVICE_ROLE=${SERVICE_ROLE}
 					echo SECURITY_GROUP=${SECURITY_GROUP}
 					echo SUBNET_IDS=${SUBNET_IDS}
@@ -34,29 +45,11 @@ pipeline {
 					aws eks describe-cluster --name "eksworkshop" --query cluster.status --output text
 
 					sleep 300;
+
 					'''
-                }
-            }
-        }
-
-		// stage('Create kubernetes cluster') {
-		// 	steps {
-		// 		withAWS(region:'us-west-2', credentials:'ecr_credentials') {
-		// 			sh '''
-		// 			echo SERVICE_ROLE=${SERVICE_ROLE}
-		// 			echo SECURITY_GROUP=${SECURITY_GROUP}
-		// 			echo SUBNET_IDS=${SUBNET_IDS}
-
-		// 			aws eks create-cluster --name eksworkshop \
-		// 			--role-arn "${SERVICE_ROLE}" \
-		// 			--resources-vpc-config subnetIds="${SUBNET_IDS}",securityGroupIds="${SECURITY_GROUP}"
-
-		// 			aws eks describe-cluster --name "eksworkshop" --query cluster.status --output text
-
-		// 			'''
-		// 		}
-		// 	}
-		// }
+				}
+			}
+		}
 
 	}
 }
