@@ -13,11 +13,13 @@ pipeline {
 					sleep 120;
 
 					export SERVICE_ROLE=$(aws iam get-role --role-name "AWSServiceRoleForAmazonEKS" --query Role.Arn --output text)
+					echo $SERVICE_ROLE > SERVICE_ROLE.txt
 
 					export SECURITY_GROUP=$(aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SecurityGroups'].OutputValue" --output text)
+					echo $SECURITY_GROUP > SECURITY_GROUP.txt
 
 					export SUBNET_IDS=$( aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SubnetIds'].OutputValue" --output text)
-					
+					echo $SUBNET_IDS > SUBNET_IDS.txt
 
 					'''
                 }
@@ -30,9 +32,9 @@ pipeline {
 					sh '''
 					
 
-					echo SERVICE_ROLE=${SERVICE_ROLE}
-					echo SECURITY_GROUP=${SECURITY_GROUP}
-					echo SUBNET_IDS=${SUBNET_IDS}
+					echo SERVICE_ROLE=cat SERVICE_ROLE.txt
+					echo SECURITY_GROUP=cat SECURITY_GROUP.txt
+					echo SUBNET_IDS=cat SUBNET_IDS.txt
 
 					
 
