@@ -12,13 +12,13 @@ pipeline {
 					
 					   
 						until [[ `aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].[StackStatus]" --output text` == "CREATE_COMPLETE" ]]; 
-							do  echo "The stack is NOT in a state of CREATE_COMPLETE at `date`";   
+						do  
+							echo "The stack is NOT in a state of CREATE_COMPLETE at `date`";   
 							sleep 30;
 
 						done && echo "The Stack is built at `date` - Please proceed"
     					
-					echo "The Stack is built at `date` - Please proceed"
-
+					
 					export SERVICE_ROLE=$(aws iam get-role --role-name "eksClusterRole" --query Role.Arn --output text)
 
 					export SECURITY_GROUP=$(aws cloudformation describe-stacks --stack-name "eksworkshop-vpc" --query "Stacks[0].Outputs[?OutputKey=='SecurityGroups'].OutputValue" --output text)
