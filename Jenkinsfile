@@ -1,5 +1,3 @@
-#!/bin/bash
-
 pipeline {
 	agent any
 	stages {
@@ -8,6 +6,8 @@ pipeline {
             steps {
                 withAWS(region:'us-west-2', credentials:'ecr_credentials'){
                     sh '''
+						#!/bin/bash
+						
                         aws cloudformation create-stack \
                         --stack-name "eksworkshop-vpc" \
                         --template-url "https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-08-30/amazon-eks-vpc-sample.yaml" \
